@@ -13,6 +13,11 @@ class ArmGUI:
 	Arm assumed to be 2D so we can plot its configuration space.
 	"""
 	def __init__(self, arm, planner):
+		"""
+			Args: 
+				arm (arm.Arm): The arm being used to plan over
+				planner (arm_star.ArmAStar): The planner being used on the arm
+		"""
 		self.arm = arm
 		self.h = False
 
@@ -50,6 +55,15 @@ class ArmGUI:
 		plt.show()
 
 	def draw_config_point(self, pt):
+		"""
+		Draws a point in config space
+
+		Args:
+			pt (tuple of float): The point to draw. Unlike WS5, this poitn can have any number of dimensions
+
+		Returns:
+			the plotting object
+		"""
 		xs = pt % (2*pi)
 		ys = np.arange(len(pt)) + 1
 
@@ -59,9 +73,26 @@ class ArmGUI:
 		return self.config_ax.scatter(xs, ys, marker='x', c='r')
 
 	def draw_op_point(self, pt):
+		"""
+		Draws a point in operationas space
+
+		Args:
+			pt (2-tuple of float): The point to draw. This one is still restricted to 2D
+
+		Returns:
+			the plotting object
+		"""
 		return self.op_ax.scatter([pt[0]], [pt[1]], marker='x', c='g')
 
 	def draw_arm(self):
+		"""
+		Draws the arm in this GUI object
+
+		Args:
+			None (uses self.arm)
+		Returns:
+			None
+		"""
 		locs = self.arm.get_joint_poses()[:, :-1]
 		ee = self.arm.get_end_effector_pose()[:-1]
 		self.op_ax.plot(locs[:, 0], locs[:, 1], c='k')
@@ -69,11 +100,27 @@ class ArmGUI:
 		self.op_ax.scatter(ee[0], ee[1], marker='x', c='r')
 
 	def draw_path(self):
+		"""
+		Draws the path in this GUI object
+
+		Args:
+			None (uses self.path)
+		Returns:
+			None
+		"""
 		if self.path:
 			op_pts = np.stack([self.arm.get_end_effector_pose_from(n.state) for n in self.path])
 			self.op_ax.plot(op_pts[:, 0], op_pts[:, 1], color='b')
 
 	def draw_lists(self):
+		"""
+		Draws the open/closed lists in this GUI object
+
+		Args:
+			None (uses self.open/closedlist)
+		Returns:
+			None
+		"""
 		if self.openlist:
 			pts = np.stack([self.arm.get_end_effector_pose_from(n.state) for n in self.openlist])
 			self.op_ax.scatter(pts[:, 0], pts[:, 1], alpha=0.25, c='k', marker='.', s=4)
@@ -82,6 +129,15 @@ class ArmGUI:
 			self.op_ax.scatter(pts[:, 0], pts[:, 1], alpha=0.5, c='k', marker='.', s=4)
 
 	def handle_plan(self, event):
+		"""
+		Handles path generation when the user presses the 'Plan' button on the GUI. Runs A* and then stores the resulting paths and lists.
+
+		Args:
+			event (plt.Event): Not used - keeps formatting with event handlers
+
+		Returns:
+			None
+		"""
 		self.move_goal_pt = False
 		self.path = []
 		self.planner.goal_pt = self.goal_pt
@@ -102,19 +158,54 @@ class ArmGUI:
 		self.move_goal_pt = True
 				
 	def select_point(self, event):
+		"""
+		Allows user to update points in joint space and op-space. Essentially, looks to see which set of axes the mouse is in and moves the point to the mouse.
+
+		Args:
+			(plt.MouseEvent) a mouse event to parse
+
+		Returns:
+			None
+		"""
 		if event.inaxes == self.op_ax:
 			self.move_goal_pt = True
 		self.move_point(event)
 
 	def deselect_point(self, event):
+		"""
+		Prevents the user from moving the config and op-space points.
+
+		Args:
+			(plt.MouseEvent) probably not necessary but used to keep consistence with other event handlers
+
+		Returns:
+			Nothing
+		"""
 		self.move_goal_pt = False
 
 	def move_point(self, event):
+		"""
+		Moves the config point/goal point to the location in the mouse event. This methid also re-updates the GUI.
+
+		Args:
+			(plt.MouseEvent) the mouse event to use
+
+		Returns:
+			Nothing
+		"""
 		if event.inaxes == self.op_ax and self.move_goal_pt:
 			self.goal_pt = (event.xdata, event.ydata)
 		self.update()
 
 	def update(self):
+		"""
+		Called periodically to refresh the objects in the GUI. Essenitally calles all the 'draw' functions to update. Updates to the GUI should be made by making a new 'draw' function and calling it here.
+
+		Args:
+			None
+		Returns:
+			None
+		"""
 		self.config_ax.clear()
 		self.op_ax.clear()
 		self.config_ax.grid()

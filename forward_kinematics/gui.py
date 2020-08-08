@@ -47,18 +47,36 @@ class GUI:
 	def draw_config_point(self, pt):
 		"""
 		Draws a point in config space
+
+		Args:
+			pt (2-tuple of float): the point in joint space to draw
+
+		Returns:
+			The plotting object
 		"""
 		return self.config_ax.scatter([pt[0]], [pt[1]], marker='x', c='r')
 
 	def draw_op_point(self, pt):
 		"""
 		Draws a point in operational space
+
+		Args:
+			pt (2-tuple of float): the point in operational space to draw
+
+		Returns:
+			The plotting object
 		"""
 		return self.op_ax.scatter([pt[0]], [pt[1]], marker='x', c='g')
 
 	def draw_arm(self):
 		"""
 		Draws the arm in operational space
+
+		Args:
+			None (Draws self.arm)
+
+		Returns:
+			Nothing
 		"""
 		locs = self.arm.get_joint_poses()[:, :-1]
 		ee = self.arm.get_end_effector_pose()[:-1]
@@ -68,7 +86,13 @@ class GUI:
 
 	def draw_path(self):
 		"""
-		Draws the end-end effector positions in op-space for a list of config points.
+		Draws the end-effector positions in op-space for a list of config points.
+
+		Args:
+			None (Draws self.path)
+
+		Returns:
+			None
 		"""
 		if self.path:
 			path_conf_pts = np.stack([n.pt for n in self.path]) % (2*pi)
@@ -79,6 +103,12 @@ class GUI:
 	def draw_lists(self):
 		"""
 		Draws explored planning nodes in operational space.
+
+		Args:
+			None (Draws self.openlist, self.closedlist)
+
+		Returns:
+			None
 		"""
 		if self.openlist:
 			pts = np.stack([n.pt%(2*pi) for n in self.openlist])
@@ -90,7 +120,13 @@ class GUI:
 		
 	def select_point(self, event):
 		"""
-		Allows user to update points in joint space and op-space.
+		Allows user to update points in joint space and op-space. Essentially, looks to see which set of axes the mouse is in and moves the point to the mouse.
+
+		Args:
+			(plt.MouseEvent) a mouse event to parse
+
+		Returns:
+			None
 		"""
 		if event.inaxes == self.config_ax:
 			self.move_config_pt = True
@@ -99,10 +135,28 @@ class GUI:
 		self.move_point(event)
 
 	def deselect_point(self, event):
+		"""
+		Prevents the user from moving the config and op-space points.
+
+		Args:
+			(plt.MouseEvent) probably not necessary but used to keep consistence with other event handlers
+
+		Returns:
+			Nothing
+		"""
 		self.move_config_pt = False
 		self.move_goal_pt = False
 
 	def move_point(self, event):
+		"""
+		Moves the config point/goal point to the location in the mouse event. This methid also re-updates the GUI.
+
+		Args:
+			(plt.MouseEvent) the mouse event to use
+
+		Returns:
+			Nothing
+		"""
 		if event.inaxes == self.config_ax and self.move_config_pt:
 			self.config_pt[0] = event.xdata
 			self.config_pt[1] = event.ydata
@@ -111,6 +165,14 @@ class GUI:
 		self.update()
 
 	def update(self):
+		"""
+		Called periodically to refresh the objects in the GUI. Essenitally calles all the 'draw' functions to update. Updates to the GUI should be made by making a new 'draw' function and calling it here.
+
+		Args:
+			None
+		Returns:
+			None
+		"""
 		self.config_ax.clear()
 		self.op_ax.clear()
 		self.config_ax.grid()

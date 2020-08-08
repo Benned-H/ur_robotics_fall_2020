@@ -20,7 +20,7 @@ class Arm:
 		Sets the joints of the arm (from bottom to top) to the angles specified in the argument. Note that the number of angles must equal the number of joints in the arm.
 
 		Args:
-			angles: an iterable (such as a list or array) of angles
+			angles (list of float): an iterable (such as a list or array) of angles
 
 		Returns:
 			nothing
@@ -37,7 +37,7 @@ class Arm:
 			nothing
 
 		Returns:
-			A numpy array of all the joint angles of the arm
+			(np.array[N]) A numpy array of all the joint angles of the arm
 		"""
 		return np.array([link.angle for link in self.control_links])
 
@@ -49,23 +49,23 @@ class Arm:
 			nothing
 
 		Returns:
-			A (n+1)x3 numpy array where each row is the pose (x, y, theta) of the origin of the n-th link of the arm. The (n+1)-th row is the pose of the end-effector.
+			(np.array[n+1, 3]) A (n+1)x3 numpy array where each row is the pose (x, y, theta) of the origin of the n-th link of the arm. The (n+1)-th row is the pose of the end-effector.
 		"""
-		#WORKSHOP IMPLEMENTATION HERE
-		poses = [np.zeros(3)]
-		for link in self.links:
+		#WORKSHOP IMPLEMENTATION HERE: Replace lines 62-64 with the expressions to compute the next pose, given the previous pose and current link. Note that in the loop, you can access the current link's length with link.length and its angle with link.angle
+		poses = [np.zeros(3)] # Pose of the base will always be (0, 0, 0). Store these poses in a list
+		for link in self.links: # Iterate through the links of the arm
 			#Implementation here
-			prev = poses[-1]
-			x = prev[0]
+			prev = poses[-1] #Get the most recent pose from poses (the one at the back of the list)
+			x = prev[0] # Get x, y, and theta from the most recent pose
 			y = prev[1]
 			th = prev[2]
-			th_new = th + link.angle
-			x_new = x + link.length*cos(th_new)
-			y_new = y + link.length*sin(th_new)
-			curr = np.array([x_new, y_new, th_new])
-			poses.append(curr)
+			th_new = 0 #Compute new theta
+			x_new = 0 #Compute new x
+			y_new = 0 #Compute new y
+			curr = np.array([x_new, y_new, th_new]) #Put x, y, theta new in a new array
+			poses.append(curr) # Add the arracy to the back of the list of poses
 			#End implementation
-		return np.stack(poses, axis=0)
+		return np.stack(poses, axis=0) #Combine the pose list into a 2D numpy array
 
 	def get_end_effector_pose(self):
 		"""
@@ -75,7 +75,7 @@ class Arm:
 			nothing
 
 		Returns:
-			A 1D numpy array containing the pose of the end-effector (x, y, theta)
+			(np.array[3, 1]) A 1D numpy array containing the pose of the end-effector (x, y, theta)
 		"""
 		return self.get_joint_poses()[-1]
 
@@ -87,7 +87,7 @@ class Arm:
 			angles: The list of joint angles to compute pose from.
 
 		Returns:
-			A (n+1)x3 numpy array where each row is the pose (x, y, theta) of the orig    in of the n-th link of the arm. The (n+1)-th row is the pose of the end-effector. (Equivalent to get_joint_poses)
+			(np.array[n+1, 3]) A (n+1)x3 numpy array where each row is the pose (x, y, theta) of the origin of the n-th link of the arm. The (n+1)-th row is the pose of the end-effector. (Equivalent to get_joint_poses)
 		"""
 		old_angles = self.get_joint_space()
 		self.set_joint_space(angles)
@@ -103,7 +103,7 @@ class Arm:
 			angles: The list of joint angles to compute pose from.
 
 		Returns:
-			A 1D numpy array containing the pose of the end-effector (x, y, theta)
+			(np.array[1, 3]) A 1D numpy array containing the pose of the end-effector (x, y, theta)
 		"""
 		return self.get_joint_poses_from(angles)[-1]
 

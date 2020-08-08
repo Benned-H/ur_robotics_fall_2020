@@ -19,6 +19,12 @@ class Link:
 	def set_angle(self, angle):
 		"""
 		Sets the angle to the angle specified, within the joint limits of the arm.
+
+		Args:
+			angle (float): the angle to set the joint angle to
+
+		Returns:
+			nothing
 		"""
 		self.angle = np.clip(angle, self.min_angle, self.max_angle)
 

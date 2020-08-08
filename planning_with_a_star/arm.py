@@ -13,6 +13,10 @@ class Arm:
 	def __init__(self, link_list, steppers = None):
 		"""
 		Uses a list of links to initialize an arm. Optionally, can also specify a set of stepper motors for control of a physical arm.
+
+		Args:
+			link_list (list of Link, FixedLink): list of links to initialize the arm - links are considered to be in order from base to end-effector
+			steppers (list of Stepper): Optional list of steppers to control a physical arm. Should match the number of Link (not FixedLink) in link_list
 		"""
 		self.links = []
 		self.control_links = []
@@ -31,8 +35,8 @@ class Arm:
 		Sets the joints of the arm (from bottom to top) to the angles specified in the argument. Note that the number of angles must equal the number of joints in the arm.
 
 		Args:
-			angles: an iterable (such as a list or array) of angles
-			suppress: If true, don't move the steppers.
+			angles (list of float): an iterable (such as a list or array) of angles
+			suppress (bool): If true, don't move the steppers.
 
 		Returns:
 			nothing
@@ -51,7 +55,7 @@ class Arm:
 			nothing
 
 		Returns:
-			A numpy array of all the joint angles of the arm
+			np.array[N]: A numpy array of all the joint angles of the arm
 		"""
 		return np.array([link.angle for link in self.control_links])
 
@@ -63,7 +67,7 @@ class Arm:
 			nothing
 
 		Returns:
-			A (n+1)x3 numpy array where each row is the pose (x, y, theta) of the origin of the n-th link of the arm. The (n+1)-th row is the pose of the end-effector.
+			np.array[n+1, 3]: A (n+1)x3 numpy array where each row is the pose (x, y, theta) of the origin of the n-th link of the arm. The (n+1)-th row is the pose of the end-effector.
 		"""
 		poses = [np.zeros(3)]
 		for link in self.links:
@@ -86,7 +90,7 @@ class Arm:
 			nothing
 
 		Returns:
-			A 1D numpy array containing the pose of the end-effector (x, y, theta)
+			np.array[3]: A 1D numpy array containing the pose of the end-effector (x, y, theta)
 		"""
 		return self.get_joint_poses()[-1]
 
@@ -95,10 +99,10 @@ class Arm:
 		Computes the poses of all the links of the arm (and end-effector) from the joint angles in the argument.
 
 		Args:
-			angles: The list of joint angles to compute pose from.
+			angles (list of float): The list of joint angles to compute pose from.
 
 		Returns:
-			A (n+1)x3 numpy array where each row is the pose (x, y, theta) of the orig    in of the n-th link of the arm. The (n+1)-th row is the pose of the end-effector. (Equivalent to get_joint_poses)
+			np.array[n+1, 3]: A (n+1)x3 numpy array where each row is the pose (x, y, theta) of the orig    in of the n-th link of the arm. The (n+1)-th row is the pose of the end-effector. (Equivalent to get_joint_poses)
 		"""
 		old_angles = self.get_joint_space()
 		self.set_joint_space(angles)
@@ -111,10 +115,10 @@ class Arm:
 		Uses the current joint angles to return the pose of just the end-effector.
 
 		Args:
-			angles: The list of joint angles to compute pose from.
+			angles (list of float): The list of joint angles to compute pose from.
 
 		Returns:
-			A 1D numpy array containing the pose of the end-effector (x, y, theta)
+			np.array[3]: A 1D numpy array containing the pose of the end-effector (x, y, theta)
 		"""
 		return self.get_joint_poses_from(angles)[-1]
 

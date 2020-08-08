@@ -25,12 +25,26 @@ class ArmAStar(AStarPlanner):
 	def goal_fn(self, state):
 		"""
 		Goal function is whether the current distance to goal is less than the threshold.
+
+		Args:
+			state (list of float): The state (as joint angles) to evaluate distance to goal point
+
+		Returns:
+			(bool) whether the end-effector of the arm at state is within a threshold of min_dist
 		"""
 		return self.dist_to_goal(state) < self.min_dist
 
 	def update_gui(self, ol, cl, gui):
 		"""
 		Updates the GUI using the GUI's update func.
+
+		Args:
+			ol (list of general_astar.Node): an openlist of nodes
+			cl (list of general_astar.Node): an closedlist of nodes
+			gui (list of general_astar.Node): the GUI on which to render the openlist/closedlist
+
+		Returns:
+			Nothing
 		"""
 		gui.openlist = ol
 		gui.closedlist = cl
@@ -41,12 +55,25 @@ class ArmAStar(AStarPlanner):
 	def h(self, node, G):
 		"""
 		Heuristic is Euclidean distance to the goal point
+
+		Args:
+			node (general_astar.Node) the node to evaluate the heuristic value of
+			G (list of general_astar.State) not used for continuous domains - necessary to keep format of the abstract class.
+
+		Returns:
+			(float) the heuristic value of node
 		"""
 		return self.dist_to_goal(node.state)
 		
 	def dist_to_goal(self, state):
 		"""
 		Use arm's built-in end-effector pose func and use Euclidean dist to goal pose.
+
+		Args:
+			state (list of joint angles): The state to compute distance to goal from
+
+		Returns:
+			(float) the distance to the goal point from this state
 		"""
 		ee = self.arm.get_end_effector_pose_from(state)[:-1]
 		return ((ee[0] - self.goal_pt[0])**2 + (ee[1] - self.goal_pt[1])**2)**0.5
@@ -54,6 +81,13 @@ class ArmAStar(AStarPlanner):
 	def cost(self, curr, n):
 		"""
 		All node costs are discretization
+
+		Args:
+			curr (general_astar.Node): Not used - kept for consistency with base class
+			n (general_astar.Node): Not used - kept for consistency with base class
+
+		Returns:
+			(float) the cost to traverse nodes (Always self.discretization)
 		"""
 		return self.discretization
 
@@ -62,6 +96,12 @@ class ArmAStar(AStarPlanner):
 		Compute neighbor nodes from current state.
 		Neighbors are valid expansions from the current state.
 		An expansion is obtained by adding or subtracting discretizations from the current state. This function also prunes out invalid configurations as computed by the arm.
+
+		Args:
+			curr (general_astar.Node): The state to generate neighbors from
+
+		Returns:
+			(list of general_astar.Node): The list of valid neighbors of curr
 		"""
 		curr_state = curr.state
 
@@ -81,6 +121,12 @@ class ArmAStar(AStarPlanner):
 	def expand_1n(self, state):
 		"""
 		Compute the 1-neighborhood from a node. (Add/subtract 1 discretization from each dimension of state).
+
+		Args:
+			state (list of float): The state to get the 1-neighborhood of
+
+		Returns:
+			(list of Node): The 1-neighborhood of state
 		"""
 		expansions = []
 
@@ -98,6 +144,12 @@ class ArmAStar(AStarPlanner):
 	def expand_2n(self, state):
 		"""
 		Compute the 2-neighborhood from a node (Add/subtract discreizations from every pair of dimensions of state).
+
+		Args:
+			state (list of float): The state to get the 1-neighborhood of
+
+		Returns:
+			(list of Node): The 1-neighborhood of state
 		"""
 		expansions = self.expand_1n(state)
 
