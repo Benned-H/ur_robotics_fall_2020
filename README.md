@@ -1,5 +1,5 @@
-# ur_robotics_workshops
-This repository contains code and writeups for a number of workshops designed to teach introductory robotics concepts to the members of the Robotics Club at the University of Rochester. Current workshops are listed in the table below with the name of the directory in which to find its content, as well as its order in a workshop series, if applicable. In general, we expect the Intro to Robotics workshop series to be completed first, and skills learned in this series will likely be necessary for other workshops.
+# ur_robotics_fall_2020
+This repository contains code and writeups for the **Intro to Robotics** workshop series designed to teach introductory robotics concepts to the members of the Robotics Club at the University of Rochester. Each workshop is listed in the table below with the name of the directory in which to find its content, as well as its order in the workshop series. In general, we expect the Intro to Robotics workshop series to be completed first, as skills learned in this series will likely be necessary for other workshops.
 
 | Topic | Directory | Series | 
 |---|---|---|
