@@ -6,7 +6,7 @@ Forward kinematics code that can be copy-pasted into line 58 of arm.py to do for
 ### arm.py
 Source code for a two-dimensional arm, notably without code for forward kinematics.
 ### gui.py
-Source code for visualizing and changing the joint angles of a 2DOF 2d arm. This file can be run as a script to check if forward kinematics were inplemented correctly.
+Source code for visualizing and changing the joint angles of a 2DOF two-dimensional arm. This file can be run as a script to check if forward kinematics were implemented correctly.
 ### link.py
 Source code for a two-dimensional link in an arm with an adjustable angle, as well as a version with a fixed joint.
 ## What you have to implement:
