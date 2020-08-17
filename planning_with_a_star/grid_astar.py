@@ -121,7 +121,7 @@ def actions8(n):
 	Returns:
 		action_list (list of actions): List of valid actions from Node n.
 	"""
-	return [[-1,1],[0,1],[1,1],[-1,0],[1,0],[-1,-1],[0,-1],[1,-1]]
+	pass # IMPLEMENT HERE BY REPLACING THIS LINE
 
 def neighbors(n):
 	"""Generates all valid neighbors of the given node.

@@ -1,0 +1,10 @@
+s1.rotate_to(-pi/2)
+s2.rotate_to(-pi/2)
+s3.rotate_to(-pi/2)
+sleep(2)
+s1.rotate_to(pi/2)
+s2.rotate_to(pi/2)
+s3.rotate_to(pi/2)
+sleep(2)
+
+# You could repeat the above block to flip the steppers as many times as desired.

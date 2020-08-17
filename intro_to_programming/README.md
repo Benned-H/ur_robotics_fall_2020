@@ -16,7 +16,7 @@ These instructions include all programs, installs, commands, and steps to set up
 9. Then right click the `intro_to_programming` folder on the left side of the screen. Selecting "Open in integrated terminal" will open the terminal such that `intro_to_programming` is the current working directory. Running `dir` will show you what's in this folder.
 10. Run `git clone https://github.com/striest/stepper_motors` to clone the code we'll need to interface with the virtual stepper motors for this and following workshops. Then run `pip install ./stepper_motors` to make this code 'visible' to the Python interpreter on your machine.
 11. Run `pip install matplotlib` to install a Python graphing library that we'll use for various illustrations during these workshops. Also run `pip install pygame` to install another graphics package we'll use for a demo in the A* workshop. Thankfully, these installation steps cover all we'll need for the rest of the workshops. Whew.
-12. We can now run the workshop code! Run `python program-name` to run your desired Python file, in this case `three_steppers_virtual.py`. This code will simulate stepper motors, as your computer doesn't have GPIO pins. Follow along with the prompts given to complete the practice Python exercises.
+12. We can now run the workshop code! Run `python three_steppers_virtual.py` to the workshop code. This code will simulate stepper motors, as your computer doesn't have GPIO pins. Follow along with the prompts given to complete the practice Python exercises.
 
 ## Setup Instructions (Mac)
 These instructions include all programs, installs, commands, and steps to set up your computer for these workshops. If any steps don't work, try Googling the error you were given (how CS majors solve many issues) or email bhedegaa@u.rochester.edu to help us improve these materials for future use.
@@ -29,19 +29,23 @@ These instructions include all programs, installs, commands, and steps to set up
 7. You can now follow through the steps in the workshop slides. Because Mac has a Unix command line, all commands in the slides will work for you. The above installation steps should enable you to execute the `git` steps in the slides.
 8. Once you've finished the slides, navigate to the `ur_robotics_workshops` folder in Terminal and then into the `intro_to_programming` folder. Running `ls` will show you what's in this folder.
 10. Run `git clone https://github.com/striest/stepper_motors` to clone the code we'll need to interface with the virtual stepper motors for this and following workshops.
-11. Run `curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py` and then `python get-pip.py` to install pip, a package for manager for Python. Then run `pip3 install stepper_motors/` to make the stepper motor code 'visible' to the Python interpreter on your machine.
+11. Run `curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py` and then `python get-pip.py` to install pip, a package manager for Python. Then run `pip3 install stepper_motors/` to make the stepper motor code 'visible' to the Python interpreter on your machine.
 11. Run `pip install matplotlib` to install a Python graphing library that we'll use for various illustrations during these workshops.
 12. We also need to install Pygame, another library we'll use for a demo in the A* workshop. Run `python3 -m pip install -U pygame==2.0.0.dev6 --user`. Thankfully, these installation steps cover all we'll need for the rest of the workshops. Whew.
-12. We can now run the workshop code! Run `python3 program-name` to run the desired Python file, in this case `three_steppers_virtual.py`. This code will simulate stepper motors, as your computer doesn't have GPIO pins. Follow along with the prompts given to complete the practice Python exercises.
+12. We can now run the workshop code! Run `python3 three_steppers_virtual.py` to run the workshop code. This code will simulate stepper motors, as your computer doesn't have GPIO pins. Follow along with the prompts given to complete the practice Python exercises.
 
 ## What's in this directory
+### answer_partX.txt
+Answer code to Part X of the workshop for X = 4,6,7.
+
 ### three\_steppers.py
 Source code for the workshop which will actuate physical stepper motors. Use this if you're on a Raspberry Pi.
+
 ### three\_steppers\_virtual.py
 Source code for the workshop which will actuate virtual stepper motors. Use this on all non-Raspberry-Pi computers.
 
 ## What to implement
-First, run either `three_steppers.py` or `three_steppers_virtual.py`, depending on your platform. Follow along with the prompts. You will eventually need to implement the code for parts 4-6 (lines 70, 147, 160) in either `three_steppers.py` or `three_steppers_virtual.py`, depending on what you've been running.
+First, run either `three_steppers.py` or `three_steppers_virtual.py`, depending on your platform. Follow along with the prompts. You will eventually need to implement the code for parts 4-6 (lines 70, 147, 160) in either `three_steppers.py` or `three_steppers_virtual.py`, depending on what you've been running. Each time you make changes, save the file and rerun the program using the command in step 12 of your system's setup.
 
 ## How to tell if it's working
 Re-run the script you ran after implementing the code for parts 4-6. The final results should look something like [this](https://youtu.be/eAWpkSIO3vE). TODO: This video is from WS 5, not 4.

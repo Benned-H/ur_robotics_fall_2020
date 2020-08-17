@@ -1,0 +1,3 @@
+expansions1 = self.expand_1n(curr.state) # Get 1-neighbors
+expansions2 = self.expand_2n(curr.state) # Get 2-neighbors
+expansions = expansions1 + expansions2 # Combine lists

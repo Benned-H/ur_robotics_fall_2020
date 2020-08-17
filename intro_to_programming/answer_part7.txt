@@ -1,0 +1,5 @@
+for i in range(3):
+    set_steppers([s1, s2, s3], [-pi/2, -pi/2, -pi/2])
+    sleep(1)
+    set_steppers([s1, s2, s3], [pi/2, pi/2, pi/2])
+    sleep(1)

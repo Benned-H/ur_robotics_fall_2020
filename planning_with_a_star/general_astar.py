@@ -92,7 +92,7 @@ class AStarPlanner(object, metaclass=abc.ABCMeta):
 	@abc.abstractmethod
 	def cost(self, c, n):
 		"""
-		Computes and returns the cost between the given current Node and next Node.
+		Computes and returns the cost between the given current Node and next Node. NEEDS IMPLEMENTATION
 
 		Args:
 			curr (Node): The Node an action was taken from.
@@ -192,7 +192,7 @@ class AStarPlanner(object, metaclass=abc.ABCMeta):
 		open_list = [Node(s)] # Line 1. Converts starting State to Node.
 		closed_list = [] # Line 2
 
-		if type(G) is list:
+		if type(G) is list: # Lets us handle both a single goal or a list
 			g_fn = lambda x: x in G
 		else:
 			g_fn = G

@@ -11,7 +11,7 @@ class ArmAStar(AStarPlanner):
 
 	def __init__(self, arm, discretization = 5 * pi / 180, min_dist = 0.15):
 		"""
-		Intitializes an A* planner with an arm
+		Initializes an A* planner with an arm
 		Args:
 			arm: The arm to plan with
 			discretization: How far to move joint angles for neighboring nodes.
@@ -76,7 +76,7 @@ class ArmAStar(AStarPlanner):
 			(float) the distance to the goal point from this state
 		"""
 		ee = self.arm.get_end_effector_pose_from(state)[:-1]
-		return ((ee[0] - self.goal_pt[0])**2 + (ee[1] - self.goal_pt[1])**2)**0.5
+		return ( (ee[0] - self.goal_pt[0])**2 + (ee[1] - self.goal_pt[1])**2 )**0.5
 
 	def cost(self, curr, n):
 		"""
@@ -89,7 +89,9 @@ class ArmAStar(AStarPlanner):
 		Returns:
 			(float) the cost to traverse nodes (Always self.discretization)
 		"""
-		return self.discretization
+		squared_L2_vector = (curr.state - n.state)**2.0
+		total = squared_L2_vector.sum()
+		return total**0.5
 
 	def neighbors(self, curr):
 		"""
@@ -103,15 +105,11 @@ class ArmAStar(AStarPlanner):
 		Returns:
 			(list of general_astar.Node): The list of valid neighbors of curr
 		"""
-		curr_state = curr.state
+		expansions = self.expand_1n(curr.state) # Get 1-neighbors
 
-		#Get all expansions
-		expansions = self.expand_2n(curr_state)
-		#Filter invalid expansions
 		valid_expansions = []
-
 		for node in expansions:
-			if self.arm.valid_configuration(node.state):
+			if self.arm.valid_configuration(node.state): # Filter invalid expansions
 				valid_expansions.append(node)
 
 		#print([n.state for n in valid_expansions])
@@ -140,10 +138,10 @@ class ArmAStar(AStarPlanner):
 
 		return expansions
 	
-	#There should be a better way to do this than copy-paste the combos of plus/minus	
+	# There should be a better way to do this than copy-paste the combos of plus/minus	
 	def expand_2n(self, state):
 		"""
-		Compute the 2-neighborhood from a node (Add/subtract discreizations from every pair of dimensions of state).
+		Compute all nodes two discretization steps from a node. (Add/subtract 1 discretization from 2 dimensions of state)
 
 		Args:
 			state (list of float): The state to get the 1-neighborhood of
@@ -151,7 +149,7 @@ class ArmAStar(AStarPlanner):
 		Returns:
 			(list of Node): The 1-neighborhood of state
 		"""
-		expansions = self.expand_1n(state)
+		expansions = []
 
 		for d in range(state.shape[0]):
 			for d2 in range(d+1, state.shape[0]):

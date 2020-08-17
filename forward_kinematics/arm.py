@@ -51,21 +51,22 @@ class Arm:
 		Returns:
 			(np.array[n+1, 3]) A (n+1)x3 numpy array where each row is the pose (x, y, theta) of the origin of the n-th link of the arm. The (n+1)-th row is the pose of the end-effector.
 		"""
-		#WORKSHOP IMPLEMENTATION HERE: Replace lines 62-64 with the expressions to compute the next pose, given the previous pose and current link. Note that in the loop, you can access the current link's length with link.length and its angle with link.angle
-		poses = [np.zeros(3)] # Pose of the base will always be (0, 0, 0). Store these poses in a list
+		poses = [np.zeros(3)] # Pose of the base will always be (0, 0, 0). Store these poses in a list.
 		for link in self.links: # Iterate through the links of the arm
-			#Implementation here
-			prev = poses[-1] #Get the most recent pose from poses (the one at the back of the list)
+			prev = poses[-1] # Get the most recent pose from poses (the one at the back of the list)
 			x = prev[0] # Get x, y, and theta from the most recent pose
 			y = prev[1]
 			th = prev[2]
+
+			# WORKSHOP IMPLEMENTATION HERE: Replace lines 63-65 with the expressions to compute the next pose, given the previous pose and current link.
+			# Note that in the loop, you can access the current link's length with link.length and its angle with link.angle
 			th_new = 0 #Compute new theta
 			x_new = 0 #Compute new x
 			y_new = 0 #Compute new y
-			curr = np.array([x_new, y_new, th_new]) #Put x, y, theta new in a new array
-			poses.append(curr) # Add the arracy to the back of the list of poses
-			#End implementation
-		return np.stack(poses, axis=0) #Combine the pose list into a 2D numpy array
+
+			curr = np.array([x_new, y_new, th_new]) # Put [x, y, theta] new in a new array
+			poses.append(curr) # Add the array to the back of the list of poses
+		return np.stack(poses, axis=0) # Combine the pose list into a 2D numpy array
 
 	def get_end_effector_pose(self):
 		"""
