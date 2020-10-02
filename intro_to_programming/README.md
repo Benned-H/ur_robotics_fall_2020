@@ -48,4 +48,4 @@ Source code for the workshop which will actuate virtual stepper motors. Use this
 First, run either `three_steppers.py` or `three_steppers_virtual.py`, depending on your platform. Follow along with the prompts. You will eventually need to implement the code for parts 4-6 (lines 70, 147, 160) in either `three_steppers.py` or `three_steppers_virtual.py`, depending on what you've been running. Each time you make changes, save the file and rerun the program using the command in step 12 of your system's setup.
 
 ## How to tell if it's working
-Re-run the script you ran after implementing the code for parts 4-6. The final results should look something like [this](https://youtu.be/eAWpkSIO3vE). TODO: This video is from WS 5, not 4.
+Re-run the script you ran after implementing the code for parts 4-6. Does the behavior match what you expected?
